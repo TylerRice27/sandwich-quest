@@ -1,12 +1,10 @@
 <template class="">
   <main class="bg-dark text-light">
-    <div class="container ">
+    <div class="container">
       <router-view />
-
     </div>
   </main>
   <footer>
-
     <Navbar />
   </footer>
 </template>
@@ -18,6 +16,8 @@ export default {
   name: 'App',
   setup() {
     return {
+      // NOTE Watcheffect here to look at the user
+      // Console.log the user
       appState: computed(() => AppState)
     }
   }
@@ -27,13 +27,13 @@ export default {
 @import "./assets/scss/main.scss";
 
 footer {
-  font-family: 'Julius Sans One', sans-serif;
+  font-family: "Julius Sans One", sans-serif;
 }
 
 .stars {
   display: flex;
   flex-direction: row-reverse;
-  transform: scale(.75);
+  transform: scale(0.75);
 }
 
 body {

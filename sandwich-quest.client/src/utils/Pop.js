@@ -52,7 +52,7 @@ export default class Pop {
       showConfirmButton: false
     })
   }
-  
+
   /**
    * @param {import('axios').AxiosError | Error | String } Error An Error Object.
    */

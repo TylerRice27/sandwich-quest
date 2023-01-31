@@ -6,7 +6,7 @@ import { BadRequest } from "@bcwdev/auth0provider/lib/Errors";
 
 export const mapBox = axios.create({
     baseURL: 'https://api.mapbox.com/geocoding/v5/',
-    timeout: 8000,
+    timeout: 12000,
     // headers: {
     //     authorization: ``
     // }

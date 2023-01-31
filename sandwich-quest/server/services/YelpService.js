@@ -3,10 +3,10 @@ import axios from "axios";
 import { logger } from "../utils/Logger";
 export const yelp = axios.create({
   baseURL: 'https://api.yelp.com/v3',
-  timeout: 8000,
+  timeout: 20000,
   headers: {
     authorization: `Bearer 2Ej5gF-03AwbccPHRTDw4-808S6PocQQFs9Jg3gBqOUPoZ27_F_Pd63QUHbVlT1XV9lUgPzw4hpXQUTppaVirTFoO_gAlT6vyT1MsXr33egDg21TQS2rc2gv1RK6YnYx`
-  }
+  },
 
   // params: {
   //   api_key: '2Ej5gF-03AwbccPHRTDw4-808S6PocQQFs9Jg3gBqOUPoZ27_F_Pd63QUHbVlT1XV9lUgPzw4hpXQUTppaVirTFoO_gAlT6vyT1MsXr33egDg21TQS2rc2gv1RK6YnYx'

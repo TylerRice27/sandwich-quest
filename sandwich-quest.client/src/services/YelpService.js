@@ -5,9 +5,9 @@ import { AppState } from '../AppState'
 import { logger } from '../utils/Logger.js'
 import { locationService } from './LocationService'
 export const yelp = Axios.create({
-  baseURL,
-  timeout: 8000,
-  })
+    baseURL,
+    timeout: 15000,
+})
 
 
 let location = ''
@@ -25,14 +25,14 @@ class YelpService {
         categories = AppState.currentCategories
         coords = AppState.currentCoords.coords
         term = query
-        
+
         if (!AppState.currentCoords?.coords?.latitude || AppState.currentLocation) {
-            const res = await api.get('yelp', {params: {categories: categories, location: location, term: term }})
+            const res = await api.get('yelp', { params: { categories: categories, location: location, term: term } })
             AppState.homeRestaurants = res.data
-             return
+            return
         }
 
-        const res = await api.get('yelp', {params: {categories: categories, location: location, latitude: coords.latitude, longitude:coords.longitude, term: term }})
+        const res = await api.get('yelp', { params: { categories: categories, location: location, latitude: coords.latitude, longitude: coords.longitude, term: term } })
         // console.log(res.data, 'here is the get all res')
         AppState.homeRestaurants = res.data
     }
@@ -41,7 +41,7 @@ class YelpService {
         AppState.activeRestaurant = res.data
         // logger.log('getById', res.data)
     }
-   
+
 
 
 }
