@@ -29,7 +29,7 @@ Models are defined as mongoose schemas and then imported into a central location
 
 ### Working with Auth0
 
-This library provides easily configured middleware that will validate user auth tokens, roles, permissions and provides a simple approach to get userInfo associted with a user account. Each middleware will call next with an error on any failure so be sure to setup a default error handler. Also note that we extend the express request object with
+This library provides easily configured middleware that will validate user auth tokens, roles, permissions and provides a simple approach to get userInfo associated with a user account. Each middleware will call next with an error on any failure so be sure to setup a default error handler. Also note that we extend the express request object with
 
 - req.user: `{ UserIdentity }`
 - req.userInfo: `{ UserInfo }`
@@ -44,8 +44,8 @@ In your auth0 dashboard be sure to enable RBAC or add in this custom rule
  * Add common namespaced properties to userInfo, 
  * note auth0 will strip any non namespaced properties
  */
+
 function extendUserInfo(user, context, callback) {
-    const namespace = 'https://YOURDOMAINHERE.auth0.com';
     context.idToken = context.idToken || {};
     context.authorization = context.authorization || {};
     user.app_metadata = user.app_metadata || { };
@@ -53,11 +53,14 @@ function extendUserInfo(user, context, callback) {
     user.app_metadata.id = user.app_metadata.id || generateId();
 
     for (const key in user.app_metadata) {
-        context.idToken[`${namespace}/${key}`] = user.app_metadata[key];
+        context.idToken[`${key}`] = user.app_metadata[key];
     }
-    context.idToken[`${namespace}/roles`] = context.authorization.roles;
-    context.idToken[`${namespace}/permissions`] = context.authorization.permissions;
-    context.idToken[`${namespace}/user_metadata`] = user.user_metadata;
+    context.idToken[`roles`] = context.authorization.roles;
+    context.idToken[`permissions`] = context.authorization.permissions;
+    context.idToken[`user_metadata`] = user.user_metadata;
+    context.idToken[`role`] = context.authorization.roles;
+
+ 	 context.idToken['https://localhost:3000/roles'] = context.authorization.roles;
     
     if(!user.app_metadata.new){
         return callback(null, user, context);
@@ -77,6 +80,39 @@ function extendUserInfo(user, context, callback) {
       Math.random() * 16 | 0).toString(16)).toLowerCase();
 	}
 }
+// function extendUserInfo(user, context, callback) {
+//     const namespace = 'https://YOURDOMAINHERE.auth0.com';
+//     context.idToken = context.idToken || {};
+//     context.authorization = context.authorization || {};
+//     user.app_metadata = user.app_metadata || { };
+//     user.app_metadata.new = user.app_metadata.id ? false : true;
+//     user.app_metadata.id = user.app_metadata.id || generateId();
+
+//     for (const key in user.app_metadata) {
+//         context.idToken[`${namespace}/${key}`] = user.app_metadata[key];
+//     }
+//     context.idToken[`${namespace}/roles`] = context.authorization.roles;
+//     context.idToken[`${namespace}/permissions`] = context.authorization.permissions;
+//     context.idToken[`${namespace}/user_metadata`] = user.user_metadata;
+    
+//     if(!user.app_metadata.new){
+//         return callback(null, user, context);
+//     }
+//     delete user.app_metadata.new;
+//     auth0.users.updateAppMetadata(user.user_id, user.app_metadata)
+//         .then(function () {
+//             callback(null, user, context);
+//         })
+//         .catch(function (err) {
+//             callback(err);
+//         });  
+  
+//   function generateId() {
+//     let timestamp = (new Date().getTime() / 1000 | 0).toString(16);
+//     return timestamp + 'xxxxxxxxxxxxxxxx'.replace(/[x]/g, () => (
+//       Math.random() * 16 | 0).toString(16)).toLowerCase();
+// 	}
+// }
 ```
 
 Example of how to use and configure auth0Provider, You can configure the auth0Provider anywhere in your application and then import it and use the middleware anywhere
